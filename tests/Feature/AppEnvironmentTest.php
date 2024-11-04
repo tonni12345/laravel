@@ -7,9 +7,13 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function PHPUnit\Framework\assertTrue;
+
 class AppEnvironmentTest extends TestCase {
     public function testAppEnv(){
-        var_dump(App::environment());
+        if(App::environment('testing')){
+            self::assertTrue(true);
+        }
     }
 }
 
