@@ -20,5 +20,9 @@ class FooBarServiceProviderTest extends TestCase
         $bar2 = $this->app->make(Bar::class);
 
         self::assertEquals($bar1, $bar2);
+
+        self::assertEquals($foo1, $bar1->foo);
+        self::assertEquals($foo1, $bar2->foo);
+
    }
 }
