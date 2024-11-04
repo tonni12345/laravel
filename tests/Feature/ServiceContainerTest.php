@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Data\Bar;
 use App\Data\Foo;
 use Tests\TestCase;
 use App\Data\Person;
@@ -62,7 +63,28 @@ class ServiceContainerTest extends TestCase
         self::assertSame($person, $person1);
         self::assertSame($person, $person2);
         self::assertSame($person1, $person2);
+    }
+
+    public function testDependencyInjectionService(){
+        $this->app->singleton(Foo::class, function($app){
+            return new Foo();
+        });
+
+        // membuat bar menjadi singleton juga tetapi dengan object yang kompleks karena ada parameternya maka dari itu kita buat dari variable $app
+
+        $this->app->singleton(Bar::class, function($app){
+            return new Bar($app->make(Foo::class));
+        });
 
 
+        $foo = $this->app->make(Foo::class);
+        $bar1 = $this->app->make(Bar::class);
+        $bar2 = $this->app->make(Bar::class);
+
+
+        self::assertEquals("Foo and Bar", $bar1->bar());
+        self::assertSame($foo, $bar1->foo);
+
+        self::assertSame($bar1, $bar2);
     }
 }
