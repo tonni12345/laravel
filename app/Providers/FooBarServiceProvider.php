@@ -22,8 +22,6 @@ class FooBarServiceProvider extends ServiceProvider
         $this->app->singleton(Bar::class, function($app){
             return new Bar($app->make(Foo::class ));
         });
-
-
     }
 
     /**
